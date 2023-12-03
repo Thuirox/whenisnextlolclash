@@ -28,11 +28,7 @@ function loadSceneConfig (config: SceneConfig): void {
   })
 }
 
-void init().then(() => {
-  animate()
-})
-
-async function init (): Promise<void> {
+export async function init (): Promise<void> {
   setupScene()
   setupControls()
 
@@ -42,6 +38,7 @@ async function init (): Promise<void> {
   initGUI()
 
   loadSceneConfig(testScene2)
+  animate()
   // initModel('59', 0, { x: 200, y: 0, z: 0 }, -Math.PI / 2)
   // initModel('3', 0, { x: 0, y: 0, z: -200 }, 0)
   // initModel('10', 0, { x: 0, y: 0, z: 200 }, Math.PI)
