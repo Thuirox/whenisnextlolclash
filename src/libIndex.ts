@@ -1,11 +1,11 @@
 import { LOLLoader, type MeshLoL } from './lib/LOLLoader'
-import { type Champion, state, loadingOverlay } from './state'
+import { type Champion, state, loadingOverlay, type ClashData } from './state'
 import { setupControls } from './controls'
 import { animate, setupScene } from './scene'
 import * as THREE from 'three'
-import { addChampionToGUI, initGUI } from './gui'
 import { type SceneConfig } from './types'
 import { testScene2 } from './scenes'
+import { addNavigationButton } from './navigator'
 
 const DEFAULT_CHAMPION_KEY = '266'
 const DEFAULT_SKIN_INDEX = 0
@@ -22,21 +22,43 @@ function getNewChampion (): Champion {
   }
 }
 
-function loadSceneConfig (config: SceneConfig): void {
-  config.forEach(({ championKey, skinIndex, position, rotation, setFrame, animName }) => {
-    void loadChampionConfig(championKey, skinIndex, new THREE.Vector3(position.x, position.y, position.z), new THREE.Vector3(rotation.x, rotation.y, rotation.z), setFrame, animName)
-  })
+function getSceneConfig (nbChampions: number): SceneConfig {
+  return testScene2
 }
 
-export async function init (): Promise<void> {
+async function loadScene (clashData: ClashData[]): Promise<void> {
+  const sceneConfig = getSceneConfig(clashData.length)
+
+  const promises = sceneConfig.map(async ({ championKey, skinIndex, position, rotation, setFrame, animName }, index) => {
+    const champion = await loadChampionConfig(
+      championKey,
+      skinIndex,
+      new THREE.Vector3(position.x, position.y, position.z),
+      new THREE.Vector3(rotation.x, rotation.y, rotation.z),
+      setFrame,
+      animName
+    )
+
+    const clash = clashData[index]
+
+    state.clashes[clash.id] = {
+      champion,
+      clashData: clash
+    }
+
+    addNavigationButton(clash.id.toString())
+  })
+
+  await Promise.all(promises)
+}
+
+export async function init (clashList: ClashData[]): Promise<void> {
   setupScene()
   setupControls()
 
   loadingOverlay.show()
 
-  initGUI()
-
-  loadSceneConfig(testScene2)
+  await loadScene(clashList)
   animate()
   // initModel('59', 0, { x: 200, y: 0, z: 0 }, -Math.PI / 2)
   // initModel('3', 0, { x: 0, y: 0, z: -200 }, 0)
@@ -49,7 +71,6 @@ export async function initMeshChampion (championKey: string, skinIndex: number, 
   const meshLol = await loader.load(championKey, skinIndex, { static: false, enableTexture: false, setFrame, animName })
 
   state.scene.add(state.ground)
-  state.groundFlag = true
   meshLol.position.copy(position)
   meshLol.rotation.set(rotation.x, rotation.y, rotation.z)
   meshLol.userData.model.update(100)
@@ -59,7 +80,7 @@ export async function initMeshChampion (championKey: string, skinIndex: number, 
   return meshLol
 }
 
-async function loadChampionConfig (championKey: string, skinIndex: number, position: THREE.Vector3, rotation: THREE.Vector3, setFrame?: number, animName?: string): Promise<void> {
+async function loadChampionConfig (championKey: string, skinIndex: number, position: THREE.Vector3, rotation: THREE.Vector3, setFrame?: number, animName?: string): Promise<Champion> {
   const { index } = getNewChampion()
 
   const mesh = await initMeshChampion(championKey, skinIndex, position, rotation, setFrame, animName)
@@ -71,24 +92,5 @@ async function loadChampionConfig (championKey: string, skinIndex: number, posit
     index
   }
 
-  state.champions.push(champion)
-
-  addChampionToGUI(champion)
-}
-
-export async function newChampion (): Promise<void> {
-  const { championKey, skinIndex, index } = getNewChampion()
-
-  const mesh = await initMeshChampion(championKey, skinIndex, new THREE.Vector3(-200, 0, 0), new THREE.Vector3(0, Math.PI / 2, 0))
-
-  const champion: Champion = {
-    championKey,
-    skinIndex,
-    mesh,
-    index
-  }
-
-  state.champions.push(champion)
-
-  addChampionToGUI(champion)
+  return champion
 }

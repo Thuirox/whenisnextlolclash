@@ -1,6 +1,6 @@
 import './style.css'
 import { init } from './libIndex'
-import { addNavigationButton } from './navigator'
+import { type ClashData } from './state'
 
 const DEFAULT_REGION = 2
 
@@ -29,17 +29,12 @@ const CLASH_ENDPOINT = `https://whenisnextlolclash.justabayet.com/clashes?region
 
 async function main (): Promise<void> {
   const remoteData = await fetch(CLASH_ENDPOINT)
-  const remoteClashData: any[] = await remoteData.json()
+  const remoteClashData: ClashData[] = await remoteData.json()
   console.log(remoteClashData)
   const mockData = (await import('./data/clashMock.json')).default
   console.log(mockData)
 
-  remoteClashData.forEach((clash, index) => {
-    console.log(clash)
-    addNavigationButton(index)
-  })
-
-  void init()
+  void init(remoteClashData)
 }
 
 void main()

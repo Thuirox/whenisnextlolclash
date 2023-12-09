@@ -20,7 +20,7 @@ function setupScene (): void {
   camera = new THREE.PerspectiveCamera(
     45,
     window.innerWidth / window.innerHeight,
-    1,
+    100,
     2000
   )
   camera.position.set(100, 200, 700)
@@ -57,15 +57,6 @@ function setupScene (): void {
   spotlight.map = texture
   state.scene.add(spotlight)
 
-  // scene.add( new THREE.CameraHelper( spotlight.shadow.camera ) );
-
-  // var grid = new THREE.GridHelper(2000, 20, 0x000000, 0x000000);
-  // grid.material.opacity = 0.2;
-  // grid.material.transparent = true;
-  // scene.add(grid);
-
-  // initCurrentModel()
-
   renderer = new THREE.WebGLRenderer({ canvas, antialias: true })
   renderer.setPixelRatio(window.devicePixelRatio)
   renderer.setSize(window.innerWidth, window.innerHeight)
@@ -76,13 +67,15 @@ function setupScene (): void {
 
   controls = new OrbitControls(camera, renderer.domElement)
   controls.target.set(0, 100, 0)
+  controls.enablePan = false
+  controls.enableZoom = false
   controls.autoRotate = true
   controls.update()
 
   window.addEventListener('resize', onWindowResize, false)
 
   stats = new Stats()
-  document.body.appendChild(stats.dom)
+  // document.body.appendChild(stats.dom)
 }
 
 function onWindowResize (): void {
@@ -97,14 +90,36 @@ function animate (): void {
   renderer.render(state.scene, camera)
   controls.update(delta)
   stats.update()
-  state.champions.forEach((champion) => {
+
+  Object.keys(state.clashes).forEach((clashId) => {
+    const { champion } = state.clashes[clashId]
+
     champion.mesh?.userData.model.update(clock.getElapsedTime() * 1000)
   })
-  if (state.ground && state.groundFlag) state.ground.rotateZ(0.1 * delta)
 
   const time = clock.getElapsedTime() / 10
   spotlight.position.x = Math.cos(time) * 2.5
   spotlight.position.z = Math.sin(time) * 2.5
 }
 
-export { setupScene, animate }
+function focusClash (clashId: string): void {
+  const { champion } = state.clashes[clashId]
+
+  const cameraPosition = new THREE.Vector3(
+    0 - champion.mesh?.position.x,
+    champion.mesh?.position.y + 100,
+    0 - champion.mesh?.position.z
+  )
+
+  camera.position.copy(cameraPosition)
+  controls.target = champion.mesh?.position.clone().add(new THREE.Vector3(0, 200, 0))
+  controls.update()
+}
+
+function resetCamera (): void {
+  camera.position.set(100, 200, 700)
+  controls.target = new THREE.Vector3(0, 100, 0)
+  controls.update()
+}
+
+export { setupScene, animate, focusClash, resetCamera }

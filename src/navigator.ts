@@ -1,7 +1,27 @@
+import { selectClash, unselectClash } from './state'
+
 const navigator = document.getElementById('navigator')
 let current: HTMLDivElement | null = null
 
-function addNavigationButton (clashId: number): void {
+function unselectNavigationButton (clashId: string): void {
+  const button = document.getElementById(getNodeId(clashId)) as HTMLDivElement
+
+  button.classList.remove('selected')
+  current = null
+}
+
+function selectNavigationButton (clashId: string): void {
+  const button = document.getElementById(getNodeId(clashId)) as HTMLDivElement
+
+  if (current != null) {
+    current.classList.remove('selected')
+  }
+
+  button.classList.add('selected')
+  current = button
+}
+
+function addNavigationButton (clashId: string): void {
   const button = document.createElement('div')
   button.classList.add('navigator-button')
 
@@ -13,27 +33,31 @@ function addNavigationButton (clashId: number): void {
 
   button.onclick = () => {
     if (current == null) {
-      button.classList.add('selected')
+      selectClash(clashId)
     } else {
       if (current.id === button.id) {
-        button.classList.toggle('selected')
-      } else {
-        current.classList.remove('selected')
+        const isSelected = button.classList.contains('selected')
 
-        button.classList.add('selected')
+        if (isSelected) {
+          unselectClash(clashId)
+        } else {
+          selectClash(clashId)
+        }
+      } else {
+        selectClash(clashId)
       }
     }
-    current = button
-    // Add event dispatcher or call to tell what's turned on. !about toggle
   }
 
   navigator.appendChild(button)
 }
 
-function getNodeId (clashId: number): string {
+function getNodeId (clashId: string): string {
   return `nav-node-${clashId}`
 }
 
 export {
-  addNavigationButton
+  addNavigationButton,
+  selectNavigationButton,
+  unselectNavigationButton
 }
