@@ -1,25 +1,18 @@
-import { state } from './state'
-
 function setupControls (): void {
   window.addEventListener('keydown', onKeyDown, false)
+
+  const sideButtonNext = document.getElementById('next')
+  sideButtonNext.onclick = () => {
+    console.log('Side Button Next Clicked')
+  }
+  const sideButtonPrevious = document.getElementById('previous')
+  sideButtonPrevious.onclick = () => {
+    console.log('Side Button Previous Clicked')
+  }
 }
 
 function onKeyDown (event: KeyboardEvent): void {
-  if (event.key === 'q') {
-    state.champions.forEach((champion) => champion.mesh?.userData.model.setAnimationOnce('spell1'))
-  }
-  if (event.key === 'w') {
-    state.champions.forEach((champion) => champion.mesh?.userData.model.setAnimationOnce('spell2'))
-  }
-  if (event.key === 'e') {
-    state.champions.forEach((champion) => champion.mesh?.userData.model.setAnimationOnce('spell3'))
-  }
-  if (event.key === 'r') {
-    state.champions.forEach((champion) => champion.mesh?.userData.model.setAnimationOnce('spell4'))
-  }
-  if (event.key === 'a') {
-    state.champions.forEach((champion) => champion.mesh?.userData.model.setAnimationOnce('attack1'))
-  }
+  console.log(`Key pressed: ${event.key}`)
 }
 
 export { setupControls }
