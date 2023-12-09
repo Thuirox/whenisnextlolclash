@@ -43,7 +43,7 @@ function setupScene (): void {
   state.scene.add(light)
 
   const loader = new THREE.TextureLoader()
-  const texture = loader.load('assets/texture.jpg')
+  const texture = loader.load('assets/disturbLight.jpg')
   texture.minFilter = THREE.LinearFilter
   texture.magFilter = THREE.LinearFilter
   texture.colorSpace = THREE.SRGBColorSpace
