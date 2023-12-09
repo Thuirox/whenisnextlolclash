@@ -43,7 +43,6 @@ canvas{
   width: 100%;
   height: 100%;
   display: block;
-  cursor: url('/assets/cursor_precise.png') 0 0, default;
 }
 
 .arrow {
@@ -85,7 +84,7 @@ canvas{
 
   background: linear-gradient(90deg, rgba(0, 0, 0, 0.51) 0%, rgba(0,0,0,0) 100%);
 
-  cursor: url('/assets/pointer.png') 0 0, pointer;
+  cursor: pointer;
 }
 
 #next{
