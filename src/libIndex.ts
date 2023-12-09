@@ -32,7 +32,6 @@ export async function init (): Promise<void> {
   setupScene()
   setupControls()
 
-  loadingOverlay.init()
   loadingOverlay.show()
 
   initGUI()

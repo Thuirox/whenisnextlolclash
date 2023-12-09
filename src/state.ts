@@ -23,10 +23,7 @@ const state: State = {
 }
 
 const loadingOverlay = {
-  obj: null as HTMLElement,
-  init: () => {
-    loadingOverlay.obj = document.getElementById('loading')
-  },
+  obj: document.getElementById('loading'),
   show: () => {
     loadingOverlay.obj.style.display = 'block'
   },
@@ -35,4 +32,14 @@ const loadingOverlay = {
   }
 }
 
-export { state, type Champion, loadingOverlay }
+const demoIndicator = {
+  obj: document.getElementById('demo-indicator'),
+  show: () => {
+    loadingOverlay.obj.style.display = 'block'
+  },
+  hide: () => {
+    loadingOverlay.obj.style.display = 'none'
+  }
+}
+
+export { state, type Champion, loadingOverlay, demoIndicator }
