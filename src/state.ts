@@ -83,6 +83,12 @@ function unselectClash (clashId: string): void {
   state.currentClashId = null
 }
 
+function unselectCurrentClash (): void {
+  if (state.currentClashId != null) {
+    unselectClash(state.currentClashId)
+  }
+}
+
 function selectClashByStep (step = 1): void {
   const clashIds = Object.keys(state.clashes)
 
@@ -127,6 +133,18 @@ function selectPreviousClash (): void {
   selectClashByStep(-1)
 }
 
+function getClashIdFromMeshLoL (meshLoL: MeshLoL): ClashId | undefined {
+  const clashIds = Object.keys(state.clashes)
+
+  const index = clashIds.findIndex((clashId) => {
+    const clash = state.clashes[clashId]
+
+    return clash.champion.mesh === meshLoL
+  })
+
+  return index === -1 ? undefined : clashIds[index]
+}
+
 export {
   state,
   type Champion,
@@ -136,6 +154,8 @@ export {
   demoIndicator,
   selectClash,
   unselectClash,
+  unselectCurrentClash,
   selectNextClash,
-  selectPreviousClash
+  selectPreviousClash,
+  getClashIdFromMeshLoL
 }
