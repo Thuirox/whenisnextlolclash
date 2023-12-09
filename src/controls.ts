@@ -1,4 +1,4 @@
-import { selectNextClash, selectPreviousClash } from './state'
+import { selectNextClash, selectPreviousClash, unselectCurrentClash } from './state'
 
 function setupControls (): void {
   window.addEventListener('keydown', onKeyDown, false)
@@ -21,6 +21,10 @@ function onKeyDown (event: KeyboardEvent): void {
 
     case 'ArrowRight':
       selectNextClash()
+      break
+
+    case 'Escape':
+      unselectCurrentClash()
       break
   }
 }
