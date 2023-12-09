@@ -1,6 +1,8 @@
 import './style.css'
 import { init } from './libIndex'
 
+const DEFAULT_REGION = 2
+
 const regions = [
   'br1',
   'eun1',
@@ -20,7 +22,9 @@ const regions = [
   'vn2'
 ]
 
-const CLASH_ENDPOINT = `https://whenisnextlolclash.justabayet.com/clashes?region=${regions[0]}`
+const currentRegionId = DEFAULT_REGION
+
+const CLASH_ENDPOINT = `https://whenisnextlolclash.justabayet.com/clashes?region=${regions[currentRegionId]}`
 
 async function main (): Promise<void> {
   const remoteData = await fetch(CLASH_ENDPOINT)
