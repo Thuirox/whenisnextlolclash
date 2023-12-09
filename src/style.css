@@ -1,3 +1,11 @@
+:root {
+  --secondary-color-start: rgb(121, 98, 57);
+  --secondary-color-end: rgb(159, 127, 63);
+  --secondary-color-light-start: rgb(201, 175, 110);
+  --secondary-color-light-end: rgb(228, 216, 185);
+  --background: rgb(46, 46, 46);
+}
+
 body {
   font-family: Monospace;
   background-color: #141416;
@@ -46,14 +54,14 @@ canvas{
 }
 
 .arrow {
-  border: solid rgba(255, 255, 255);
-  opacity: 0.7;
+  border: solid var(--secondary-color-light-start);
+  opacity: 0.9;
 
   border-width: 0 5px 5px 0;
   display: inline-block;
   transform: rotate(135deg);
   -webkit-transform: rotate(135deg);
-  padding: 10px;
+  padding: 0.5rem;
   margin: 5px;
 
   transition: all .2s ease-in-out;
@@ -67,9 +75,8 @@ canvas{
 }
 
 .side-button:hover .arrow-container .arrow{
-  -webkit-transform: rotate(135deg) scale(1.1);
-  transform: rotate(135deg) scale(1.1);
-  opacity: 0.9;
+  border: solid var(--secondary-color-light-end);
+  border-width: 0 5px 5px 0;
  }
 
 .side-button {
@@ -106,4 +113,56 @@ canvas{
   z-index: 11;
 
   opacity: 0.7;
+}
+
+#navigator {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+
+  transform: translateX(-50%);
+}
+
+.navigator-button-inner {
+  background: var(--background);
+  height: calc(100% - 4px);
+  width: calc(100% - 4px);
+  padding: 2px;
+}
+
+.navigator-button:hover {
+  background: var(--secondary-color-light-start);
+}
+
+.navigator-button {
+  padding: 1rem;
+  position: relative;
+  background: var(--secondary-color-start);
+  padding: 3px;
+
+  transform: rotate(45deg);
+
+  height: 15px;
+  width: 15px;
+
+  transition: all .2s ease-in-out;
+
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navigator-button.selected .navigator-button-inner::before {
+  background: var(--secondary-color-end);
+  content: "";
+  display: block;
+  height: 100%;
+  width: 100%;
 }
