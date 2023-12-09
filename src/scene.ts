@@ -174,6 +174,7 @@ function onPointerUp (event: PointerEvent): void {
   } else {
     unselectCurrentClash()
   }
+  outlinePass.selectedObjects = []
 }
 
 function checkIntersection (): MeshLoL | undefined {
