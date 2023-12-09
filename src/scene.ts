@@ -76,6 +76,7 @@ function setupScene (): void {
 
   controls = new OrbitControls(camera, renderer.domElement)
   controls.target.set(0, 100, 0)
+  controls.autoRotate = true
   controls.update()
 
   window.addEventListener('resize', onWindowResize, false)
@@ -94,6 +95,7 @@ function animate (): void {
   requestAnimationFrame(animate)
   const delta = clock.getDelta()
   renderer.render(state.scene, camera)
+  controls.update(delta)
   stats.update()
   state.champions.forEach((champion) => {
     champion.mesh?.userData.model.update(clock.getElapsedTime() * 1000)
