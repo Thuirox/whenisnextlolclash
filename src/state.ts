@@ -2,7 +2,7 @@ import { type MeshLoL } from './lib/LOLLoader'
 import * as THREE from 'three'
 import { focusClash, resetCamera } from './scene'
 import { selectNavigationButton, unselectNavigationButton } from './navigator'
-import { displayClashData } from './display'
+import { displayClashData, hideClashDisplay } from './display'
 
 interface Champion {
   mesh?: MeshLoL
@@ -87,6 +87,7 @@ function unselectClash (clashId: string): void {
 
 function unselectCurrentClash (): void {
   if (state.currentClashId != null) {
+    hideClashDisplay()
     unselectClash(state.currentClashId)
   }
 }

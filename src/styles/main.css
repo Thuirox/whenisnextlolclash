@@ -171,3 +171,57 @@ canvas{
   height: 100%;
   width: 100%;
 }
+
+#title-container {
+  font-size: 16px;
+}
+
+#data-display-inner {
+  background: var(--background);
+  height: calc(100% - 2em);
+  width: calc(100% - 2em);
+  padding: 1em;
+}
+
+#data-display {
+  display: none;
+
+  position: absolute;
+  top: 3em;
+  right: 3em;
+  padding: 2px;
+
+  z-index: 15;
+
+  color: var(--secondary-color-light-end);
+  background: linear-gradient(-45deg, var(--background), var(--secondary-color-end));
+	background-size: 400% 400%;
+	animation: gradient 5s ease infinite;
+
+  cursor: auto;
+
+  -webkit-user-select: auto; /* Safari */
+  -moz-user-select: auto; /* Firefox */
+  -ms-user-select: auto; /* IE10+/Edge */
+  user-select: auto; /* Standard */
+
+  p {
+    margin: 0;
+
+    &:first-child {
+      padding-bottom: 10px;
+    }
+  }
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}

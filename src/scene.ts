@@ -84,6 +84,7 @@ function setupScene (): void {
   controls.enablePan = false
   controls.enableZoom = false
   controls.autoRotate = true
+  controls.enableRotate = false
   controls.update()
 
   window.addEventListener('resize', onWindowResize, false)
