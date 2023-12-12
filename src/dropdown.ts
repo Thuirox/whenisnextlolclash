@@ -1,31 +1,8 @@
 import { loadScene } from './libIndex'
-import { state } from './state'
+import { loadingOverlay, state } from './state'
 import { resetNavigator } from './navigator'
 import { resetCamera, resetScene } from './scene'
 import { getClashData } from './clashData'
-
-function initTimezone (): void {
-  // Setup timezones
-  const valueTimezone = document.getElementById('value-timezone')
-  const dropdownTimezone = document.getElementById('dropdown-timezone')
-
-  function selectTimezone (timezone: string): void {
-    console.log(timezone)
-    // Update selector value
-    valueTimezone.innerHTML = timezone
-    // Update current timezone
-
-  // Update displayed clash
-  }
-
-  for (const child of dropdownTimezone.children) {
-    child.addEventListener('click', function (e) {
-      const element = e.target as HTMLElement
-      const newValue = element.innerText
-      selectTimezone(newValue)
-    })
-  }
-}
 
 function initRegion (): void {
   // Setup regions
@@ -34,16 +11,15 @@ function initRegion (): void {
 
   function selectRegion (region: string): void {
     valueRegion.innerHTML = region
-    // Update current region
+
+    loadingOverlay.show()
 
     resetScene()
     resetCamera()
     resetNavigator()
     state.clashes = {}
 
-    // Reload clash Data
-    // Load scene (or no clash found scene)
-    void getClashData().then(clashData => {
+    void getClashData(region).then(clashData => {
       void loadScene(clashData)
     })
   }
@@ -58,6 +34,5 @@ function initRegion (): void {
 }
 
 export function initDropdown (): void {
-  initTimezone()
   initRegion()
 }

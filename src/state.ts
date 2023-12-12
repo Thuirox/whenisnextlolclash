@@ -2,6 +2,7 @@ import { type MeshLoL } from './lib/LOLLoader'
 import * as THREE from 'three'
 import { focusClash, resetCamera } from './scene'
 import { selectNavigationButton, unselectNavigationButton } from './navigator'
+import { displayClashData } from './display'
 
 interface Champion {
   mesh?: MeshLoL
@@ -68,6 +69,9 @@ const demoIndicator = {
 }
 
 function selectClash (clashId: string): void {
+  const { clashData } = state.clashes[clashId]
+  displayClashData(clashData)
+
   focusClash(clashId)
   selectNavigationButton(clashId)
 

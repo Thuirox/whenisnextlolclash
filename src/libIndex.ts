@@ -27,7 +27,7 @@ function getSceneConfig (nbChampions: number): SceneConfig {
 }
 
 export async function loadScene (clashData: ClashData[]): Promise<void> {
-  loadingOverlay.show()
+  console.log(clashData)
 
   const sceneConfig = getSceneConfig(clashData.length)
 
@@ -57,6 +57,8 @@ export async function loadScene (clashData: ClashData[]): Promise<void> {
 export async function init (clashList: ClashData[]): Promise<void> {
   setupScene()
   setupControls()
+
+  loadingOverlay.show()
 
   await loadScene(clashList)
 

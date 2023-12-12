@@ -1,34 +1,40 @@
-import { type ClashData } from './state'
+import { demoIndicator, type ClashData } from './state'
 
-const DEFAULT_REGION = 2
+const currentRegion = 'EUW1'
 
-const regions = [
-  'br1',
-  'eun1',
-  'euw1',
-  'jp1',
-  'kr',
-  'la1',
-  'la2',
-  'na1',
-  'oc1',
-  'tr1',
-  'ru',
-  'ph2',
-  'sg2',
-  'th2',
-  'tw2',
-  'vn2'
-]
+async function getRemoteData (region: string): Promise<ClashData[]> {
+  const clashEndpoint = `https://whenisnextlolclash.justabayet.com/clashes?region=${region}`
 
-const currentRegionId = DEFAULT_REGION
+  const data = await fetch(clashEndpoint)
+  const clashData: ClashData[] = await data.json()
 
-const CLASH_ENDPOINT = `https://whenisnextlolclash.justabayet.com/clashes?region=${regions[currentRegionId]}`
+  return clashData
+}
 
-export async function getClashData (): Promise<ClashData[]> {
-  const remoteData = await fetch(CLASH_ENDPOINT)
-  const remoteClashData: ClashData[] = await remoteData.json()
-  const mockClashData = (await import('./data/clashMock.json')).default as any as ClashData[]
+async function getMockData (region: string): Promise<ClashData[]> {
+  const importedData = (await import('./data/clashMock.json')).default as any as ClashData[]
 
-  return remoteClashData.length === 0 ? mockClashData : remoteClashData
+  const clashData = structuredClone(importedData)
+
+  clashData.forEach((clash) => {
+    clash.nameKey = `${clash.nameKey}_${region}`
+  })
+
+  return clashData
+}
+
+export async function getClashData (region: string = currentRegion): Promise<ClashData[]> {
+  const _region = region.toLocaleLowerCase()
+
+  const remoteClashData = await getRemoteData(_region)
+
+  if (remoteClashData.length > 0) {
+    demoIndicator.hide()
+    return remoteClashData
+  }
+
+  demoIndicator.show()
+  const mockClashData = await getMockData(_region)
+
+  return mockClashData
 }
