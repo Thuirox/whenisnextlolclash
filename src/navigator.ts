@@ -17,8 +17,13 @@ function selectNavigationButton (clashId: string): void {
     current.classList.remove('selected')
   }
 
-  button.classList.add('selected')
-  current = button
+  if (button == null) {
+    console.warn(`Navigation button not found for clash ${clashId}`)
+    current = null
+  } else {
+    button.classList.add('selected')
+    current = button
+  }
 }
 
 function addNavigationButton (clashId: string): void {
@@ -56,8 +61,13 @@ function getNodeId (clashId: string): string {
   return `nav-node-${clashId}`
 }
 
+function resetNavigator (): void {
+  navigator.innerHTML = ''
+}
+
 export {
   addNavigationButton,
   selectNavigationButton,
-  unselectNavigationButton
+  unselectNavigationButton,
+  resetNavigator
 }

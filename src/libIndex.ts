@@ -26,7 +26,9 @@ function getSceneConfig (nbChampions: number): SceneConfig {
   return testScene2
 }
 
-async function loadScene (clashData: ClashData[]): Promise<void> {
+export async function loadScene (clashData: ClashData[]): Promise<void> {
+  loadingOverlay.show()
+
   const sceneConfig = getSceneConfig(clashData.length)
 
   const promises = sceneConfig.map(async ({ championKey, skinIndex, position, rotation, setFrame, animName }, index) => {
@@ -56,13 +58,9 @@ export async function init (clashList: ClashData[]): Promise<void> {
   setupScene()
   setupControls()
 
-  loadingOverlay.show()
-
   await loadScene(clashList)
+
   animate()
-  // initModel('59', 0, { x: 200, y: 0, z: 0 }, -Math.PI / 2)
-  // initModel('3', 0, { x: 0, y: 0, z: -200 }, 0)
-  // initModel('10', 0, { x: 0, y: 0, z: 200 }, Math.PI)
 }
 
 export async function initMeshChampion (championKey: string, skinIndex: number, position: THREE.Vector3 = new THREE.Vector3(0, 0, 0), rotation: THREE.Vector3 = new THREE.Vector3(0, 0, 0), setFrame?: number, animName?: string): Promise<MeshLoL> {

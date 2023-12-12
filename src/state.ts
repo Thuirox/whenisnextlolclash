@@ -72,8 +72,6 @@ function selectClash (clashId: string): void {
   selectNavigationButton(clashId)
 
   state.currentClashId = clashId
-
-  console.log(state.clashes[clashId])
 }
 
 function unselectClash (clashId: string): void {

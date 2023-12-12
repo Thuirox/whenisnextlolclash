@@ -89,7 +89,7 @@ function setupScene (): void {
   window.addEventListener('resize', onWindowResize, false)
 
   stats = new Stats()
-  document.body.appendChild(stats.dom)
+  // document.body.appendChild(stats.dom)
 
   setupPostProcessing()
 }
@@ -131,6 +131,12 @@ function focusClash (clashId: string): void {
   camera.position.copy(cameraPosition)
   controls.target = champion.mesh?.position.clone().add(new THREE.Vector3(0, 200, 0))
   controls.update()
+}
+
+function resetScene (): void {
+  Object.values(state.clashes).forEach(({ champion }) => {
+    champion.mesh.removeFromParent()
+  })
 }
 
 function resetCamera (): void {
@@ -207,4 +213,4 @@ function checkIntersection (): MeshLoL | undefined {
   return intersected[0]
 }
 
-export { setupScene, animate, focusClash, resetCamera, checkIntersection }
+export { setupScene, animate, focusClash, resetCamera, checkIntersection, resetScene }
