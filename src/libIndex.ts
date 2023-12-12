@@ -27,8 +27,6 @@ function getSceneConfig (nbChampions: number): SceneConfig {
 }
 
 export async function loadScene (clashData: ClashData[]): Promise<void> {
-  console.log(clashData)
-
   const sceneConfig = getSceneConfig(clashData.length)
 
   const promises = sceneConfig.map(async ({ championKey, skinIndex, position, rotation, setFrame, animName }, index) => {

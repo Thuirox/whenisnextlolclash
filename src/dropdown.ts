@@ -3,6 +3,7 @@ import { loadingOverlay, state } from './state'
 import { resetNavigator } from './navigator'
 import { resetCamera, resetScene } from './scene'
 import { getClashData } from './clashData'
+import { hideClashDisplay } from './display'
 
 function initRegion (): void {
   // Setup regions
@@ -14,6 +15,7 @@ function initRegion (): void {
 
     loadingOverlay.show()
 
+    hideClashDisplay()
     resetScene()
     resetCamera()
     resetNavigator()
