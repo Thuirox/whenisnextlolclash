@@ -1,7 +1,7 @@
 import { loadScene } from './libIndex'
-import { loadingOverlay, state } from './state'
+import { loadingOverlay, state, unselectCurrentClash } from './state'
 import { resetNavigator } from './navigator'
-import { resetCamera, resetScene } from './scene'
+import { resetScene } from './scene'
 import { getClashData } from './clashData'
 import { hideClashDisplay } from './display'
 
@@ -17,7 +17,9 @@ function initRegion (): void {
 
     hideClashDisplay()
     resetScene()
-    resetCamera()
+    if (state.currentClashId != null) {
+      unselectCurrentClash()
+    }
     resetNavigator()
     state.clashes = {}
 
