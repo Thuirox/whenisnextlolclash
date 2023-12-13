@@ -78,8 +78,23 @@ nav {
   max-height: 300px;
   overflow-x: hidden;
   overflow-y: scroll;
-  scrollbar-color: var(--secondary-color-start) rgba(0, 0, 0, 0);
-  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2.5px;
+    background: var(--secondary-color-start);
+
+    &:hover {
+      background: var(--secondary-color-end);
+    }
+  }
 }
 
 a {
