@@ -13,6 +13,6 @@ interface ChampionConfig {
     y: number
     z: number
   }
-  setFrame: number
-  animName: string
+  setFrame?: number
+  animName?: string
 }

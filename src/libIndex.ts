@@ -4,7 +4,7 @@ import { setupControls } from './controls'
 import { animate, setupScene } from './scene'
 import * as THREE from 'three'
 import { type SceneConfig } from './types'
-import { testScene2 } from './scenes'
+import { testScene } from './scenes'
 import { addNavigationButton } from './navigator'
 
 const DEFAULT_CHAMPION_KEY = '266'
@@ -23,7 +23,7 @@ function getNewChampion (): Champion {
 }
 
 function getSceneConfig (nbChampions: number): SceneConfig {
-  return testScene2
+  return testScene
 }
 
 export async function loadScene (clashData: ClashData[]): Promise<void> {
@@ -71,7 +71,6 @@ export async function initMeshChampion (championKey: string, skinIndex: number, 
   state.scene.add(state.ground)
   meshLol.position.copy(position)
   meshLol.rotation.set(rotation.x, rotation.y, rotation.z)
-  meshLol.userData.model.update(100)
   state.scene.add(meshLol)
   loadingOverlay.hide()
 

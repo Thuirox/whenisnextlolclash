@@ -1362,7 +1362,7 @@ function Model(options) {
   self.baseUrl = "assets/";
   self.meshUrl = self.baseUrl + `models/${self.champion}_${self.skin}.lmesh`;
 
-  self.setFrame = options.setFrame != null ? options.setFrame : 0;
+  self.setFrame = options.setFrame;
 
   self.loaded = false;
   self.animsLoaded = false;
