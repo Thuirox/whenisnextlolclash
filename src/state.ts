@@ -51,7 +51,7 @@ const state: State = {
 const loadingOverlay = {
   obj: document.getElementById('loading'),
   show: () => {
-    loadingOverlay.obj.style.display = 'block'
+    // loadingOverlay.obj.style.display = 'block'
   },
   hide: () => {
     loadingOverlay.obj.style.display = 'none'
@@ -61,10 +61,10 @@ const loadingOverlay = {
 const demoIndicator = {
   obj: document.getElementById('demo-indicator'),
   show: () => {
-    loadingOverlay.obj.style.display = 'block'
+    demoIndicator.obj.style.display = 'block'
   },
   hide: () => {
-    loadingOverlay.obj.style.display = 'none'
+    demoIndicator.obj.style.display = 'none'
   }
 }
 
