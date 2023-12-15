@@ -1,4 +1,8 @@
-export type SceneConfig = ChampionConfig[]
+export interface SceneConfig {
+  champions: ChampionConfig[]
+  resetCamera?: boolean
+  disableRotation?: boolean
+}
 
 interface ChampionConfig {
   championKey: string

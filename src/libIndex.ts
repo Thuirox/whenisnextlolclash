@@ -1,10 +1,10 @@
 import { LOLLoader, type MeshLoL } from './lib/LOLLoader'
 import { type Champion, state, loadingOverlay, type ClashData } from './state'
-import { setupControls } from './controls'
-import { animate, setupScene } from './scene'
+import { hideSideButtons, setupControls, showSideButtons } from './controls'
+import { animate, resetCamera, setupScene } from './scene'
 import * as THREE from 'three'
 import { type SceneConfig } from './types'
-import { testScene } from './scenes'
+import { clashScenes } from './scenes'
 import { addNavigationButton } from './navigator'
 
 const DEFAULT_CHAMPION_KEY = '266'
@@ -23,13 +23,32 @@ function getNewChampion (): Champion {
 }
 
 function getSceneConfig (nbChampions: number): SceneConfig {
-  return testScene
+  if (nbChampions in clashScenes) {
+    return clashScenes[nbChampions]
+  }
+
+  console.info(`Scene not found for ${nbChampions} champion${nbChampions > 1 ? 's' : ''}`)
+  return clashScenes.oops
 }
 
 export async function loadScene (clashData: ClashData[]): Promise<void> {
   const sceneConfig = getSceneConfig(clashData.length)
 
-  const promises = sceneConfig.map(async ({ championKey, skinIndex, position, rotation, setFrame, animName }, index) => {
+  const { champions, resetCamera: resetCamera_, disableRotation } = sceneConfig
+
+  if (champions.length > 1) {
+    showSideButtons()
+  } else {
+    hideSideButtons()
+  }
+
+  if (resetCamera_) {
+    resetCamera()
+  }
+
+  state.controls.autoRotate = !disableRotation
+
+  const promises = champions.map(async ({ championKey, skinIndex, position, rotation, setFrame, animName }, index) => {
     const champion = await loadChampionConfig(
       championKey,
       skinIndex,
@@ -46,7 +65,7 @@ export async function loadScene (clashData: ClashData[]): Promise<void> {
       clashData: clash
     }
 
-    addNavigationButton(clash.id.toString())
+    if (champions.length > 1) addNavigationButton(clash.id.toString())
   })
 
   await Promise.all(promises)
@@ -68,7 +87,6 @@ export async function initMeshChampion (championKey: string, skinIndex: number, 
 
   const meshLol = await loader.load(championKey, skinIndex, { static: false, enableTexture: false, setFrame, animName })
 
-  state.scene.add(state.ground)
   meshLol.position.copy(position)
   meshLol.rotation.set(rotation.x, rotation.y, rotation.z)
   state.scene.add(meshLol)

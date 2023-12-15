@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import { focusClash, resetCamera } from './scene'
 import { selectNavigationButton, unselectNavigationButton } from './navigator'
 import { displayClashData, hideClashDisplay } from './display'
+import { type OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 interface Champion {
   mesh?: MeshLoL
@@ -37,15 +38,15 @@ interface ClashData {
 
 interface State {
   scene: THREE.Scene
-  ground?: THREE.Mesh
   clashes: ClashRecord
   currentClashId?: ClashId
+  controls: OrbitControls
 }
 
 const state: State = {
   scene: new THREE.Scene(),
-  ground: null,
-  clashes: {}
+  clashes: {},
+  controls: null
 }
 
 const loadingOverlay = {

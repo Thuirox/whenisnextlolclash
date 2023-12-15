@@ -1,7 +1,5 @@
 import { demoIndicator, type ClashData } from './state'
 
-const currentRegion = 'EUW1'
-
 async function getRemoteData (region: string): Promise<ClashData[]> {
   const clashEndpoint = `https://whenisnextlolclash.justabayet.com/clashes?region=${region}`
 
@@ -23,7 +21,7 @@ async function getMockData (region: string): Promise<ClashData[]> {
   return clashData
 }
 
-export async function getClashData (region: string = currentRegion): Promise<ClashData[]> {
+export async function getClashData (region: string): Promise<ClashData[]> {
   const _region = region.toLocaleLowerCase()
 
   const remoteClashData = await getRemoteData(_region)

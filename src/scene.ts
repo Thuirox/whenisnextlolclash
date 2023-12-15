@@ -9,7 +9,6 @@ import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js'
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js'
 import { type MeshLoL } from './lib/LOLLoader'
 
-let controls: OrbitControls
 let camera: THREE.PerspectiveCamera
 let renderer: THREE.WebGLRenderer
 let light: THREE.HemisphereLight
@@ -43,10 +42,10 @@ function setupScene (): void {
       // side: THREE.DoubleSide,
       depthWrite: true
     })
-    state.ground = new THREE.Mesh(new THREE.CircleGeometry(300, 100), material)
-    state.ground.rotation.x = -Math.PI / 2
-    state.ground.receiveShadow = true
-    // scene.add(ground);
+    const ground = new THREE.Mesh(new THREE.CircleGeometry(300, 100), material)
+    ground.rotation.x = -Math.PI / 2
+    ground.receiveShadow = true
+    state.scene.add(ground)
   })
 
   light = new THREE.HemisphereLight(0xffffff, 0x444444, 0.05)
@@ -79,13 +78,13 @@ function setupScene (): void {
 
   onWindowResize()
 
-  controls = new OrbitControls(camera, renderer.domElement)
-  controls.target.set(0, 100, 0)
-  controls.enablePan = false
-  controls.enableZoom = false
-  controls.autoRotate = true
-  controls.enableRotate = false
-  controls.update()
+  state.controls = new OrbitControls(camera, renderer.domElement)
+  state.controls.target.set(0, 100, 0)
+  state.controls.enablePan = false
+  state.controls.enableZoom = false
+  state.controls.autoRotate = true
+  state.controls.enableRotate = false
+  state.controls.update()
 
   window.addEventListener('resize', onWindowResize, false)
 
@@ -105,13 +104,13 @@ function animate (): void {
   requestAnimationFrame(animate)
   const delta = clock.getDelta()
   renderer.render(state.scene, camera)
-  controls.update(delta)
+  state.controls.update(delta)
   stats.update()
 
   Object.keys(state.clashes).forEach((clashId) => {
     const { champion } = state.clashes[clashId]
 
-    champion.mesh?.userData.model.update(clock.getElapsedTime() * 1000)
+    champion.mesh?.userData.model.update(clock.getElapsedTime() * 700)
   })
 
   const time = clock.getElapsedTime() / 10
@@ -130,8 +129,8 @@ function focusClash (clashId: string): void {
   )
 
   camera.position.copy(cameraPosition)
-  controls.target = champion.mesh?.position.clone().add(new THREE.Vector3(0, 200, 0))
-  controls.update()
+  state.controls.target = champion.mesh?.position.clone().add(new THREE.Vector3(0, 200, 0))
+  state.controls.update()
 }
 
 function resetScene (): void {
@@ -142,8 +141,8 @@ function resetScene (): void {
 
 function resetCamera (): void {
   camera.position.set(100, 200, 700)
-  controls.target = new THREE.Vector3(0, 100, 0)
-  controls.update()
+  state.controls.target = new THREE.Vector3(0, 100, 0)
+  state.controls.update()
 }
 
 function setupPostProcessing (): void {
@@ -189,10 +188,6 @@ function checkIntersection (): MeshLoL | undefined {
     if (intersects.length > 0) {
       const intersectedObject = intersects[0].object
 
-      if (intersectedObject === state.ground) {
-        return []
-      }
-
       if (state.currentClashId != null) {
         return []
       }
@@ -204,7 +199,11 @@ function checkIntersection (): MeshLoL | undefined {
   }
   raycaster.setFromCamera(mouse, camera)
 
-  const intersects = raycaster.intersectObject<MeshLoL>(state.scene, true)
+  const champions = Object.values(state.clashes).map(({ champion }) => {
+    return champion.mesh
+  })
+
+  const intersects = raycaster.intersectObjects<MeshLoL>(champions, true)
 
   const intersected = getIntersected(intersects)
 
