@@ -1,0 +1,39 @@
+
+.navigator-button-inner {
+  background: var(--background);
+  height: calc(100% - 4px);
+  width: calc(100% - 4px);
+  padding: 2px;
+}
+
+.navigator-button:hover {
+  background: var(--secondary-color-light-start);
+}
+
+.navigator-button {
+  padding: 1rem;
+  position: relative;
+  background: var(--secondary-color-start);
+  padding: 3px;
+
+  transform: rotate(45deg);
+
+  height: 15px;
+  width: 15px;
+
+  transition: all .2s ease-in-out;
+
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navigator-button.selected .navigator-button-inner::before {
+  background: var(--secondary-color-end);
+  content: "";
+  display: block;
+  height: 100%;
+  width: 100%;
+}

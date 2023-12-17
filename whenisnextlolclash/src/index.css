@@ -1,0 +1,23 @@
+:root {
+  --secondary-color-start: rgb(121, 98, 57);
+  --secondary-color-end: rgb(159, 127, 63);
+  --secondary-color-light-start: rgb(201, 175, 110);
+  --secondary-color-light-end: rgb(228, 216, 185);
+  --background: rgb(46, 46, 46);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: Monospace;
+  background-color: black;
+  color: #fff;
+  margin: 0px;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
