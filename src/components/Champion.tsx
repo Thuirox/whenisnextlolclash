@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { LOLLoader, Model } from "../lib/LOLLoader"
 import { useFrame } from "@react-three/fiber"
 import { Select } from "@react-three/postprocessing"
@@ -12,22 +12,7 @@ interface ChampionProps extends ChampionConfig {
   onClick: () => void
 }
 
-function getAnimations(model: Model, isStatic: boolean, animName?: string) {
-  let animations = model.getAnimations()
-
-  if (animations == null) {
-    animations = ["default"]
-  } else {
-    animations.sort()
-    animations.unshift("default")
-  }
-
-  if (!isStatic) {
-    animName ? model.setAnimation(animName) : model.setDefaultAnimation()
-  }
-}
-
-function Champion({ championKey, skinIndex, isStatic = false, enableTexture = false, setFrame, animName, position, rotation, onClick, isDisabled = false, animationSpeed = 700 }: ChampionProps) {
+function Champion({ championKey, skinIndex, enableTexture = false, setFrame, animName, position, rotation, onClick, isDisabled = false, animationSpeed = 700 }: ChampionProps) {
   const [model, setModel] = useState<Model>()
   const [hovered, setHovered] = useState(false)
 
@@ -43,26 +28,18 @@ function Champion({ championKey, skinIndex, isStatic = false, enableTexture = fa
     async function loadModel() {
       // console.log('loadModel before creating loader', championKey)
       const loader = new LOLLoader()
-      try {
-        // console.log('loadModel before loading', championKey)
-        const model = await loader.load(championKey, skinIndex, { enableTexture, setFrame, animName })
 
-        setModel(model)
+      // console.log('loadModel before loading', championKey)
+      const model = await loader.load(championKey, skinIndex, { enableTexture, setFrame, animName })
 
-      } catch (error) {
-        console.log(error)
-      }
+      animName ? model.setAnimation(animName) : model.setDefaultAnimation()
+
+      setModel(model)
       // console.log('loadModel')
     }
 
     loadModel()
   }, [animName, championKey, enableTexture, setFrame, skinIndex])
-
-  const animations = useMemo(() => {
-    if (model != null) {
-      return getAnimations(model, isStatic, animName)
-    }
-  }, [model, isStatic, animName])
 
   if (model != null) {
     return (
@@ -76,7 +53,6 @@ function Champion({ championKey, skinIndex, isStatic = false, enableTexture = fa
           geometry={model.geometry}
           receiveShadow
           castShadow
-          userData={{ model, animations }}
           onPointerEnter={() => setHovered(true)}
           onPointerLeave={() => setHovered(false)}
           onClick={() => {
