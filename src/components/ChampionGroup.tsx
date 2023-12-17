@@ -43,8 +43,8 @@ function ChampionGroup() {
   })
   const selectedChampion = selectedIndex === -1 ? null : championConfigList[selectedIndex]
 
-  useFrame(() => {
-    const speed = 0.01
+  useFrame((_, delta) => {
+    const speed = 2 * delta
 
     camera.position.lerp(cameraPos, speed)
 
