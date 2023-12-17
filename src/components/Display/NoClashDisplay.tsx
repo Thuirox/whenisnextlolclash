@@ -6,7 +6,7 @@ function NoClashDisplay() {
   const { isDemo, setDemo } = useDemo()
   return (
     <DisplayBase>
-      <p>No Incoming Clash</p>
+      <p>No Clash Incoming</p>
 
       {!isDemo && (
         <div className="button" onClick={() => {
