@@ -48,7 +48,7 @@ export const scenesConfig: Record<string, SceneConfig> = {
         championKey: '266',
         skinIndex: 0,
         position: {
-          x: -200,
+          x: -250,
           y: 0,
           z: 0
         },
