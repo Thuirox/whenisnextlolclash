@@ -1,18 +1,7 @@
 import { PropsWithChildren } from "react"
 import './DisplayBase.scss'
 import { motion } from "framer-motion"
-
-const fadeAnimation = {
-  initial: {
-    opacity: 0
-  },
-  animate: {
-    opacity: 1
-  },
-  exit: {
-    opacity: 0
-  },
-}
+import { fadeAnimation } from "../../animations"
 
 function DisplayBase({ children }: PropsWithChildren) {
   return (

@@ -9,6 +9,7 @@ import { scenesConfig } from "../data"
 import Display from "./Display"
 import Disclaimer from "./Disclaimer"
 import LoadingIndicator from "./LoadingIndicator"
+import { AnimatePresence } from "framer-motion"
 
 function ClashDataContainer() {
   const { clashes, previousClash, nextClash, isLoading } = useClashData()
@@ -28,14 +29,16 @@ function ClashDataContainer() {
 
       <Scene />
 
-      {(nbClash > 1 && hasScene) && (
-        <>
-          <SideButton isLeft onClick={previousClash} />
-          <SideButton isLeft={false} onClick={nextClash} />
+      <AnimatePresence initial={true}>
+        {(nbClash > 1 && hasScene) && (
+          <>
+            <SideButton isLeft onClick={previousClash} key={'left-side-button'} />
+            <SideButton isLeft={false} onClick={nextClash} key={'right-side-button'} />
 
-          <Navigator clashes={clashes} />
-        </>
-      )}
+            <Navigator clashes={clashes} />
+          </>
+        )}
+      </AnimatePresence>
 
       <Display />
 
