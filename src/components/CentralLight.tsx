@@ -17,16 +17,17 @@ function CentralLight() {
   const spotLightRef = useRef<SpotLight>(null)
   const hemisphereLightRef = useRef<HemisphereLight>(null)
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock }, delta) => {
+    const time = clock.getElapsedTime() / 10
+
     if (spotLightRef.current != null) {
-      const time = clock.getElapsedTime() / 10
       spotLightRef.current.position.x = Math.cos(time) * 2.5
       spotLightRef.current.position.z = Math.sin(time) * 2.5
 
       const currentIntensity = spotLightRef.current.intensity
       const targetIntensity = isLoading ? 0 : 10
 
-      const intensity = lerp(currentIntensity, targetIntensity, 0.05)
+      const intensity = lerp(currentIntensity, targetIntensity, 10 * delta)
       spotLightRef.current.intensity = intensity
     }
 
@@ -34,7 +35,7 @@ function CentralLight() {
       const currentIntensity = hemisphereLightRef.current.intensity
       const targetIntensity = isLoading ? 0 : HEMISPHERE_INTENSITY
 
-      const intensity = lerp(currentIntensity, targetIntensity, 0.05)
+      const intensity = lerp(currentIntensity, targetIntensity, 10 * delta)
       hemisphereLightRef.current.intensity = intensity
     }
   })
