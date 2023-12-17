@@ -42,6 +42,8 @@ function RegionDropdown({ region, setRegion }: RegionDropdownProps) {
         <li>{region}
           <ul className="dropdown">
             {regions.map((_region) => {
+              if (_region === region) return
+
               return (
                 <li
                   key={_region}
