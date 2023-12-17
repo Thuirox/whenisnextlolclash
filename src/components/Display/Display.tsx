@@ -6,9 +6,13 @@ import OopsDisplay from "./OopsDisplay"
 
 
 function Display() {
-  const { clashes } = useClashData()
+  const { clashes, isLoading } = useClashData()
 
   const nbClash = clashes.length
+
+  if (isLoading) {
+    return
+  }
 
   return (
     <>
