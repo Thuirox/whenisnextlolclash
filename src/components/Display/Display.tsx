@@ -1,3 +1,4 @@
+import { AnimatePresence } from "framer-motion"
 import { scenesConfig } from "../../data"
 import { useClashData } from "../../providers/ClashDataProvider"
 import BasicDisplay from "./BasicDisplay"
@@ -10,25 +11,20 @@ function Display() {
 
   const nbClash = clashes.length
 
-  if (isLoading) {
-    return
-  }
-
   return (
-    <>
-      {nbClash === 0 && (
-        <NoClashDisplay />
-      )}
+    <AnimatePresence>
+      {!isLoading && (
+        <>
+          {nbClash === 0 && (<NoClashDisplay />)}
 
-      {!(nbClash in scenesConfig) && (
-        <OopsDisplay />
-      )}
+          {!(nbClash in scenesConfig) && (<OopsDisplay />)}
 
-      {(nbClash > 0 && nbClash in scenesConfig) && (
-        <BasicDisplay />
+          {(nbClash > 0 && nbClash in scenesConfig) && (<BasicDisplay />)}
+        </>
       )}
-    </>
+    </AnimatePresence>
   )
 }
 
 export default Display
+
