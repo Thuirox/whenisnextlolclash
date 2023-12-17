@@ -1,5 +1,5 @@
-import useDemo from "../../hooks/useDemo";
-import DisplayBase from "./DisplayBase";
+import useDemo from "../../hooks/useDemo"
+import DisplayBase from "./DisplayBase"
 import './NoClashDisplay.scss'
 
 function NoClashDisplay() {

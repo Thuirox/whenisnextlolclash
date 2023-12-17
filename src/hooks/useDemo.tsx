@@ -4,7 +4,7 @@ function useDemo() {
   const location = useLocation()
   const isDemo = location.pathname === '/demo'
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const setDemo = () => {
     navigate('/demo')

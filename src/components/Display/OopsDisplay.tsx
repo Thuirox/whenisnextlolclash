@@ -1,4 +1,4 @@
-import DisplayBase from "./DisplayBase";
+import DisplayBase from "./DisplayBase"
 
 function OopsDisplay() {
   return (

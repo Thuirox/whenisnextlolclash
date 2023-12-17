@@ -23,14 +23,13 @@ function getAnimations(model: Model, isStatic: boolean, animName?: string) {
   }
 
   if (!isStatic) {
-    animName ? model.setAnimation(animName) : model.setDefaultAnimation();
+    animName ? model.setAnimation(animName) : model.setDefaultAnimation()
   }
 }
 
 function Champion({ championKey, skinIndex, isStatic = false, enableTexture = false, setFrame, animName, position, rotation, onClick, isDisabled = false, animationSpeed = 700 }: ChampionProps) {
   const [model, setModel] = useState<Model>()
   const [hovered, setHovered] = useState(false)
-  // console.log('render', championKey)
 
   useEffect(() => {
     if (!isDisabled) document.body.style.cursor = hovered ? 'pointer' : 'auto'
