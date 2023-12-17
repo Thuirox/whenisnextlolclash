@@ -8,9 +8,10 @@ import useDemo from "../hooks/useDemo"
 import { scenesConfig } from "../data"
 import Display from "./Display"
 import Disclaimer from "./Disclaimer"
+import LoadingIndicator from "./LoadingIndicator"
 
 function ClashDataContainer() {
-  const { clashes, previousClash, nextClash } = useClashData()
+  const { clashes, previousClash, nextClash, isLoading } = useClashData()
 
   const { isDemo } = useDemo()
 
@@ -22,6 +23,8 @@ function ClashDataContainer() {
   return (
     <>
       {isDemo && <DemoIndicator />}
+
+      {isLoading && <LoadingIndicator />}
 
       <Scene />
 
