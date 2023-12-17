@@ -81,7 +81,6 @@ function ChampionGroup() {
       {championConfigList.map((championConfig, index) => {
         const clash = clashes.at(index)
 
-        // console.log('championConfig', championConfig)
         if (clash == null) {
           return (
             <Champion {...championConfig} key={index} onClick={() => { }} isDisabled />
@@ -98,20 +97,6 @@ function ChampionGroup() {
           )
         }
       })}
-      {/* {clashes.map((clash, index) => {
-        const championConfig = championConfigList[index]
-
-        console.log('championConfig', championConfig)
-        return (
-          <Champion {...championConfig} key={clash.id} onClick={() => {
-            if (current == null) {
-              selectClash(clash)
-            } else {
-              unselectClash()
-            }
-          }} isDisabled={isClashSelectable} />
-        )
-      })} */}
     </>
   )
 }

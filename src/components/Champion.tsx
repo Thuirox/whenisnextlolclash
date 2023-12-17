@@ -35,7 +35,6 @@ function Champion({ championKey, skinIndex, enableTexture = false, setFrame, ani
       animName ? model.setAnimation(animName) : model.setDefaultAnimation()
 
       setModel(model)
-      // console.log('loadModel')
     }
 
     loadModel()
