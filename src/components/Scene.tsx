@@ -1,4 +1,3 @@
-import { Suspense } from 'react'
 import { PCFSoftShadowMap, Vector3 } from 'three'
 import { Canvas } from '@react-three/fiber'
 
@@ -17,11 +16,9 @@ function Scene() {
         shadows={{ enabled: true, type: PCFSoftShadowMap }}
         dpr={window.devicePixelRatio}>
         <Selection>
-          <Suspense fallback={null}>
-            <ChampionGroup />
-            <Ground />
-            <CentralLight />
-          </Suspense>
+          <ChampionGroup />
+          <Ground />
+          <CentralLight />
 
           {/* <Stats /> */}
 
