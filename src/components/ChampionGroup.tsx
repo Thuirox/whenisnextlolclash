@@ -12,7 +12,6 @@ function getSceneConfig(nbChampions: number): SceneConfig | null {
     return scenesConfig[nbChampions]
   }
 
-  console.info(`Scene not found for ${nbChampions} champion${nbChampions > 1 ? 's' : ''}`)
   return null
 }
 
@@ -33,7 +32,6 @@ function ChampionGroup() {
   const nbChampions = nbClashes
 
   const sceneConfig = getSceneConfig(nbChampions)
-  // console.log(sceneConfig)
 
   const clashIncoming = nbClashes > 0
   const isClashSelectable = clashIncoming && sceneConfig == null
