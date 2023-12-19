@@ -5,7 +5,7 @@ import './Scene.css'
 
 import Ground from './Ground'
 import CentralLight from './CentralLight'
-import ChampionGroup from './ChampionGroup'
+import SceneConfigContainer from './SceneConfigContainer'
 import { EffectComposer, Outline, Selection } from '@react-three/postprocessing'
 
 function Scene() {
@@ -16,7 +16,7 @@ function Scene() {
         shadows={{ enabled: true, type: PCFSoftShadowMap }}
         dpr={window.devicePixelRatio}>
         <Selection>
-          <ChampionGroup />
+          <SceneConfigContainer />
           <Ground />
           <CentralLight />
 

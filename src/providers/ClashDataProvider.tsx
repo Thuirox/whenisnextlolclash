@@ -29,10 +29,11 @@ class ClashData {
     public previousClash: () => void,
     public selectClash: (clash: Clash) => void,
     public unselectClash: () => void,
-    public isLoading: boolean) { }
+    public isLoading: boolean,
+    public getChampionId: (clash: Clash | null | undefined, isDemo: boolean) => string) { }
 }
 
-const ClashDataContext = createContext(new ClashData(null, [], () => { }, () => { }, () => { }, () => { }, false))
+const ClashDataContext = createContext(new ClashData(null, [], () => { }, () => { }, () => { }, () => { }, false, () => { return '' }))
 
 interface ClashDataProviderProps extends React.PropsWithChildren {
   region: string
@@ -91,7 +92,16 @@ export const ClashDataProvider = ({ children, region }: ClashDataProviderProps):
     setCurrent(null)
   }, [])
 
-  const value = useMemo(() => new ClashData(current, clashes, nextClash, previousClash, selectClash, unselectClash, isLoading), [current, clashes, nextClash, previousClash, selectClash, unselectClash, isLoading])
+  const getChampionId = useCallback((clash: Clash | null | undefined, isDemo: boolean) => {
+    if (clash != null) {
+      return `${region}-${clash.id}${isDemo ? '-demo' : ''}`
+    } else {
+      return `${region}${isDemo ? '-demo' : ''}`
+    }
+
+  }, [region])
+
+  const value = useMemo(() => new ClashData(current, clashes, nextClash, previousClash, selectClash, unselectClash, isLoading, getChampionId), [current, clashes, nextClash, previousClash, selectClash, unselectClash, isLoading, getChampionId])
 
   return (
     <ClashDataContext.Provider value={value}>

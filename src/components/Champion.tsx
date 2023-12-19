@@ -32,22 +32,25 @@ function Champion({ championKey, skinIndex, enableTexture = false, setFrame, ani
       // console.log('loadModel before loading', championKey)
       const model = await loader.load(championKey, skinIndex, { enableTexture, setFrame, animName })
 
+      model.position = position
+      model.rotation = rotation
+
       animName ? model.setAnimation(animName) : model.setDefaultAnimation()
 
       setModel(model)
     }
 
     loadModel()
-  }, [animName, championKey, enableTexture, setFrame, skinIndex])
+  }, [animName, championKey, enableTexture, setFrame, skinIndex, position, rotation])
 
   if (model != null) {
     return (
       <Select enabled={!isDisabled && hovered}>
         <mesh
-          position={new Vector3(position.x, position.y, position.z)}
-          rotation-x={rotation.x}
-          rotation-y={rotation.y}
-          rotation-z={rotation.z}
+          position={new Vector3(model.position.x, model.position.y, model.position.z)}
+          rotation-x={model.rotation.x}
+          rotation-y={model.rotation.y}
+          rotation-z={model.rotation.z}
           material={model.material}
           geometry={model.geometry}
           receiveShadow

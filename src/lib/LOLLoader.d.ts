@@ -21,6 +21,16 @@ declare class Model {
   meshUrl: string
   geometry: BufferGeometry
   material: MeshPhongMaterial
+  rotation: {
+    x: number
+    y: number
+    z: number
+  }
+  position: {
+    x: number
+    y: number
+    z: number
+  }
 }
 
 declare class MeshLoL extends THREE.Mesh {

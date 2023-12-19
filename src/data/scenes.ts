@@ -22,6 +22,18 @@ export interface ChampionConfig {
   animationSpeed?: number
 }
 
+export function getSceneConfig(nbChampions: number): SceneConfig | null {
+  if (nbChampions in scenesConfig) {
+    return scenesConfig[nbChampions]
+  }
+
+  return null
+}
+
+export function getSceneOops(): SceneConfig {
+  return scenesConfig.oops
+}
+
 export const scenesConfig: Record<string, SceneConfig> = {
   0: {
     champions: [
