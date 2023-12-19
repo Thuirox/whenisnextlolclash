@@ -44,9 +44,18 @@ export const ClashDataProvider = ({ children, region }: ClashDataProviderProps):
 
   const { data, isLoading } = useClashDataRemote(region)
 
-
   const clashes = useMemo(() => {
-    setCurrent(null)
+    if (data != null && data.length > 0) {
+      const nearestClash = data.reduce(
+        (acc, clash) =>
+          acc.schedule[0].startTime < clash.schedule[0].startTime
+            ? acc
+            : clash
+      )
+      setCurrent(nearestClash)
+    } else {
+      setCurrent(null)
+    }
 
     return data != null ? data : []
   }, [data])
