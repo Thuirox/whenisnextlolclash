@@ -4,10 +4,12 @@ import { useClashData } from "../../providers/ClashDataProvider"
 import BasicDisplay from "./BasicDisplay"
 import NoClashDisplay from "./NoClashDisplay"
 import OopsDisplay from "./OopsDisplay"
+import { useLoading } from "../../providers/LoadingProvider"
 
 
 function Display() {
-  const { clashes, isLoading } = useClashData()
+  const { clashes } = useClashData()
+  const { isLoading } = useLoading()
 
   const nbClash = clashes.length
 

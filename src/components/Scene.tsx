@@ -7,8 +7,13 @@ import Ground from './Ground'
 import CentralLight from './CentralLight'
 import SceneConfigContainer from './SceneConfigContainer'
 import { EffectComposer, Outline, Selection } from '@react-three/postprocessing'
+import { Suspense } from 'react'
+import { useLoading } from '../providers/LoadingProvider'
+
 
 function Scene() {
+  const { isLoading } = useLoading()
+
   return (
     <div id="canvas-container">
       <Canvas
@@ -16,9 +21,12 @@ function Scene() {
         shadows={{ enabled: true, type: PCFSoftShadowMap }}
         dpr={window.devicePixelRatio}>
         <Selection>
-          <SceneConfigContainer />
+          <Suspense fallback={null}>
+            <SceneConfigContainer />
+          </Suspense>
+
           <Ground />
-          <CentralLight />
+          <CentralLight isLoading={isLoading} />
 
           {/* <Stats /> */}
 

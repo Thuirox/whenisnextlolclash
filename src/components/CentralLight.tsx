@@ -2,14 +2,13 @@
 import { useFrame, useLoader } from '@react-three/fiber'
 import { useRef } from 'react'
 import { HemisphereLight, LinearFilter, SRGBColorSpace, SpotLight, TextureLoader, Vector3 } from 'three'
-import { useClashData } from '../providers/ClashDataProvider'
 
-import { useMotionValue, useMotionValueEvent, useSpring } from "framer-motion"
+import { easeInOut, useAnimate, useMotionValue, useMotionValueEvent } from "framer-motion"
 
 const HEMISPHERE_INTENSITY = 0.1
 const SPOTLIGHT_INTENSITY = 10
 
-function CentralLight() {
+function CentralLight({ isLoading }: { isLoading: boolean }) {
   const texture = useLoader(TextureLoader, '/assets/disturbLight.jpg')
   texture.minFilter = LinearFilter
   texture.magFilter = LinearFilter
@@ -18,17 +17,12 @@ function CentralLight() {
   const spotLightRef = useRef<SpotLight>(null)
   const hemisphereLightRef = useRef<HemisphereLight>(null)
 
-  const { isLoading } = useClashData()
+  const [, animate] = useAnimate()
+  const dimerValue = useMotionValue(0)
+  const targetDimerValue = isLoading ? 0 : 1
 
-  const dimerValue = useMotionValue(1)
-  isLoading ? dimerValue.set(0) : dimerValue.set(1)
-
-  const springValue = useSpring(dimerValue, {
-    duration: 600,
-    bounce: 0
-  })
-
-  useMotionValueEvent(springValue, "change", (value) => {
+  animate(dimerValue, targetDimerValue, { duration: 0.5, ease: easeInOut })
+  useMotionValueEvent(dimerValue, "change", (value) => {
     if (spotLightRef.current != null) {
       spotLightRef.current.intensity = value * SPOTLIGHT_INTENSITY
     }

@@ -1,5 +1,4 @@
 import { ChampionConfig } from "../data/scenes"
-import useDemo from "../hooks/useDemo"
 import { useClashData } from "../providers/ClashDataProvider"
 import Champion from "./Champion"
 
@@ -9,22 +8,20 @@ interface ChampionListProps {
 }
 
 function ChampionList({ championConfigList, isSelectable }: ChampionListProps) {
-  const { clashes, selectClash, current, unselectClash, getChampionId } = useClashData()
-  const { isDemo } = useDemo()
+  const { clashes, selectClash, current, unselectClash } = useClashData()
 
   return (
     <>
       {championConfigList.map((championConfig, index) => {
         const clash = clashes.at(index)
 
-        const key = getChampionId(clash, isDemo)
         if (clash == null) {
           return (
-            <Champion {...championConfig} key={key} onClick={() => { }} isDisabled />
+            <Champion {...championConfig} key={index} onClick={() => { }} isDisabled />
           )
         } else {
           return (
-            <Champion {...championConfig} key={key} onClick={() => {
+            <Champion {...championConfig} key={clash.id} onClick={() => {
               if (current == null) {
                 selectClash(clash)
               } else {

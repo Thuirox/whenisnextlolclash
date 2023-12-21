@@ -110,6 +110,74 @@ export const scenesConfig: Record<string, SceneConfig> = {
       }
     ]
   },
+  4: {
+    champions: [
+      {
+        championKey: '7',
+        skinIndex: 0,
+        position: {
+          x: -250,
+          y: 0,
+          z: 0
+        },
+        rotation: {
+          x: 0,
+          y: 1.5707963267948966,
+          z: 0
+        },
+        setFrame: 22.22378112942827,
+        animName: 'idle1'
+      },
+      {
+        championKey: '4',
+        skinIndex: 0,
+        position: {
+          x: 200,
+          y: 0,
+          z: 100
+        },
+        rotation: {
+          x: 0,
+          y: 3.992271210713072,
+          z: 0
+        },
+        setFrame: 40.40687478077867,
+        animName: 'idle1'
+      },
+      {
+        championKey: '2',
+        skinIndex: 0,
+        position: {
+          x: 100,
+          y: 0,
+          z: -200
+        },
+        rotation: {
+          x: 0,
+          y: 3.992271210713072,
+          z: 0
+        },
+        setFrame: 40.40687478077867,
+        animName: 'idle1'
+      },
+      {
+        championKey: '1',
+        skinIndex: 0,
+        position: {
+          x: -100,
+          y: 0,
+          z: -200
+        },
+        rotation: {
+          x: 0,
+          y: 3.992271210713072,
+          z: 0
+        },
+        setFrame: 40.40687478077867,
+        animName: 'idle1'
+      }
+    ]
+  },
   oops: {
     champions: [
       {

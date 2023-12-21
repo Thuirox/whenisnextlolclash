@@ -2,6 +2,7 @@ import { useState } from 'react'
 import RegionDropdown, { DEFAULT_REGION } from './components/RegionDropdown'
 import { ClashDataProvider } from './providers/ClashDataProvider'
 import ClashDataContainer from './components/ClashDataContainer'
+import { LoadingProvider } from './providers/LoadingProvider'
 
 
 function App() {
@@ -12,7 +13,9 @@ function App() {
       <RegionDropdown region={region} setRegion={setRegion} />
 
       <ClashDataProvider region={region}>
-        <ClashDataContainer />
+        <LoadingProvider>
+          <ClashDataContainer />
+        </LoadingProvider>
       </ClashDataProvider>
     </>
   )

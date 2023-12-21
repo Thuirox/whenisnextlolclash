@@ -10,9 +10,11 @@ import Display from "./Display"
 import Disclaimer from "./Disclaimer"
 import LoadingIndicator from "./LoadingIndicator"
 import { AnimatePresence } from "framer-motion"
+import { useLoading } from "../providers/LoadingProvider"
 
 function ClashDataContainer() {
-  const { clashes, previousClash, nextClash, isLoading } = useClashData()
+  const { clashes, previousClash, nextClash } = useClashData()
+  const { isLoading } = useLoading()
 
   const { isDemo } = useDemo()
 
@@ -30,7 +32,7 @@ function ClashDataContainer() {
       <Scene />
 
       <AnimatePresence initial={true}>
-        {(nbClash > 1 && hasScene) && (
+        {(nbClash > 1 && hasScene && !isLoading) && (
           <>
             <SideButton isLeft onClick={previousClash} key={'left-side-button'} />
             <SideButton isLeft={false} onClick={nextClash} key={'right-side-button'} />

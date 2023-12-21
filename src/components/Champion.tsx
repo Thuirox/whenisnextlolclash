@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react"
-import { LOLLoader, Model } from "../lib/LOLLoader"
+import { LOLLoader } from "../lib/LOLLoader"
 import { useFrame } from "@react-three/fiber"
 import { Select } from "@react-three/postprocessing"
 import { ChampionConfig } from "../data/scenes"
 import { Vector3 } from "three"
+import { suspend } from "suspend-react"
+import { useLoading } from "../providers/LoadingProvider"
 
 interface ChampionProps extends ChampionConfig {
   isStatic?: boolean
@@ -13,8 +15,20 @@ interface ChampionProps extends ChampionConfig {
 }
 
 function Champion({ championKey, skinIndex, enableTexture = false, setFrame, animName, position, rotation, onClick, isDisabled = false, animationSpeed = 700 }: ChampionProps) {
-  const [model, setModel] = useState<Model>()
   const [hovered, setHovered] = useState(false)
+
+  const { setCounter } = useLoading()
+
+  const model = suspend(async () => {
+    setCounter(c => c + 1)
+
+    const loader = new LOLLoader()
+    const model = await loader.load(championKey, skinIndex, { enableTexture, setFrame, animName })
+
+    animName ? model.setAnimation(animName) : model.setDefaultAnimation()
+    setCounter(c => c - 1)
+    return model
+  }, [animName, championKey, enableTexture, setFrame, skinIndex])
 
   useEffect(() => {
     if (!isDisabled) document.body.style.cursor = hovered ? 'pointer' : 'auto'
@@ -24,46 +38,25 @@ function Champion({ championKey, skinIndex, enableTexture = false, setFrame, ani
     if (model != null) model.update(clock.getElapsedTime() * animationSpeed)
   })
 
-  useEffect(() => {
-    async function loadModel() {
-      // console.log('loadModel before creating loader', championKey)
-      const loader = new LOLLoader()
-
-      // console.log('loadModel before loading', championKey)
-      const model = await loader.load(championKey, skinIndex, { enableTexture, setFrame, animName })
-
-      model.position = position
-      model.rotation = rotation
-
-      animName ? model.setAnimation(animName) : model.setDefaultAnimation()
-
-      setModel(model)
-    }
-
-    loadModel()
-  }, [animName, championKey, enableTexture, setFrame, skinIndex, position, rotation])
-
-  if (model != null) {
-    return (
-      <Select enabled={!isDisabled && hovered}>
-        <mesh
-          position={new Vector3(model.position.x, model.position.y, model.position.z)}
-          rotation-x={model.rotation.x}
-          rotation-y={model.rotation.y}
-          rotation-z={model.rotation.z}
-          material={model.material}
-          geometry={model.geometry}
-          receiveShadow
-          castShadow
-          onPointerEnter={() => setHovered(true)}
-          onPointerLeave={() => setHovered(false)}
-          onClick={() => {
-            if (!isDisabled) onClick()
-          }}
-        />
-      </Select>
-    )
-  }
+  return (
+    <Select enabled={!isDisabled && hovered}>
+      <mesh
+        position={new Vector3(position.x, position.y, position.z)}
+        rotation-x={rotation.x}
+        rotation-y={rotation.y}
+        rotation-z={rotation.z}
+        material={model.material}
+        geometry={model.geometry}
+        receiveShadow
+        castShadow
+        onPointerEnter={() => setHovered(true)}
+        onPointerLeave={() => setHovered(false)}
+        onClick={() => {
+          if (!isDisabled) onClick()
+        }}
+      />
+    </Select>
+  )
 }
 
 
