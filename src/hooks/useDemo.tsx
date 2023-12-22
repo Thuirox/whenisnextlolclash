@@ -1,17 +1,17 @@
-import { useLocation, useNavigate } from "react-router-dom"
+import { createSearchParams, useSearchParams } from "react-router-dom"
 
 function useDemo() {
-  const location = useLocation()
-  const isDemo = location.pathname === '/demo'
-
-  const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const isDemo = searchParams.get('isDemo') === 'true'
 
   const setDemo = () => {
-    navigate('/demo')
+    setSearchParams(createSearchParams({
+      isDemo: 'true'
+    }))
   }
 
   const unsetDemo = () => {
-    navigate('/')
+    setSearchParams(createSearchParams())
   }
 
   return {
