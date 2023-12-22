@@ -1,25 +1,5 @@
+import { regions } from '../hooks/useRegion'
 import './RegionDropdown.scss'
-
-export const DEFAULT_REGION = 'EUW1'
-
-const regions = [
-  'BR1',
-  'EUN1',
-  'EUW1',
-  'JP1',
-  'KR',
-  'LA1',
-  'LA2',
-  'NA1',
-  'OC1',
-  'TR1',
-  'RU',
-  'PH2',
-  'SG2',
-  'TH2',
-  'TW2',
-  'VN2'
-]
 
 interface RegionDropdownProps {
   region: string,

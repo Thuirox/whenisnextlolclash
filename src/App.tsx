@@ -1,12 +1,12 @@
-import { useState } from 'react'
-import RegionDropdown, { DEFAULT_REGION } from './components/RegionDropdown'
+import RegionDropdown from './components/RegionDropdown'
 import { ClashDataProvider } from './providers/ClashDataProvider'
 import ClashDataContainer from './components/ClashDataContainer'
 import { LoadingProvider } from './providers/LoadingProvider'
+import useRegion from './hooks/useRegion'
 
 
 function App() {
-  const [region, setRegion] = useState<string>(DEFAULT_REGION)
+  const [region, setRegion] = useRegion()
 
   return (
     <>
