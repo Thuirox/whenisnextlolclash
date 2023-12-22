@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, createContext, useContext, useMemo, useState } from 'react'
+import React, { PropsWithChildren, createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { useClashData } from './ClashDataProvider'
 
 class Loading {
@@ -10,12 +10,18 @@ class Loading {
 const LoadingContext = createContext(new Loading(false, () => { }))
 
 export const LoadingProvider = ({ children }: PropsWithChildren): JSX.Element => {
-  const { isLoading: isLoadingRemote } = useClashData()
+  const { isLoading: isLoadingRemote, selectNearestClash } = useClashData()
   const [counter, setCounter] = useState<number>(0)
 
   const isLoading = counter > 0 || isLoadingRemote
 
-  const value = useMemo(() => new Loading(isLoading, setCounter), [isLoading, setCounter])
+  useEffect(() => {
+    if (!isLoading) {
+      selectNearestClash()
+    }
+  }, [isLoading, selectNearestClash])
+
+  const value = useMemo(() => new Loading(isLoading, setCounter), [isLoading])
 
   return (
     <LoadingContext.Provider value={value}>

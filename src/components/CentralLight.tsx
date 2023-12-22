@@ -1,27 +1,33 @@
 
 import { useFrame, useLoader } from '@react-three/fiber'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { HemisphereLight, LinearFilter, SRGBColorSpace, SpotLight, TextureLoader, Vector3 } from 'three'
-
 import { easeInOut, useAnimate, useMotionValue, useMotionValueEvent } from "framer-motion"
+import { useLoading } from '../providers/LoadingProvider'
 
 const HEMISPHERE_INTENSITY = 0.1
 const SPOTLIGHT_INTENSITY = 10
 
-function CentralLight({ isLoading }: { isLoading: boolean }) {
+function CentralLight() {
   const texture = useLoader(TextureLoader, '/assets/disturbLight.jpg')
   texture.minFilter = LinearFilter
   texture.magFilter = LinearFilter
   texture.colorSpace = SRGBColorSpace
+
+  const { isLoading } = useLoading()
 
   const spotLightRef = useRef<SpotLight>(null)
   const hemisphereLightRef = useRef<HemisphereLight>(null)
 
   const [, animate] = useAnimate()
   const dimerValue = useMotionValue(0)
-  const targetDimerValue = isLoading ? 0 : 1
 
-  animate(dimerValue, targetDimerValue, { duration: 0.5, ease: easeInOut })
+  useEffect(() => {
+    const targetDimerValue = isLoading ? 0 : 1
+
+    animate(dimerValue, targetDimerValue, { duration: 0.5, ease: easeInOut })
+  }, [isLoading, animate, dimerValue])
+
   useMotionValueEvent(dimerValue, "change", (value) => {
     if (spotLightRef.current != null) {
       spotLightRef.current.intensity = value * SPOTLIGHT_INTENSITY

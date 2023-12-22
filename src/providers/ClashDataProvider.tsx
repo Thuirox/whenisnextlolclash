@@ -1,6 +1,5 @@
-import React, { createContext, useCallback, useContext, useMemo, useState } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import useClashDataRemote from '../hooks/useClashDataRemote'
-
 
 type ClashId = number
 
@@ -30,10 +29,10 @@ class ClashData {
     public selectClash: (clash: Clash) => void,
     public unselectClash: () => void,
     public isLoading: boolean,
-    public getChampionId: (clash: Clash | null | undefined, isDemo: boolean) => string) { }
+    public selectNearestClash: () => void) { }
 }
 
-const ClashDataContext = createContext(new ClashData(null, [], () => { }, () => { }, () => { }, () => { }, false, () => { return '' }))
+const ClashDataContext = createContext(new ClashData(null, [], () => { }, () => { }, () => { }, () => { }, false, () => { }))
 
 interface ClashDataProviderProps extends React.PropsWithChildren {
   region: string
@@ -44,21 +43,31 @@ export const ClashDataProvider = ({ children, region }: ClashDataProviderProps):
 
   const { data, isLoading } = useClashDataRemote(region)
 
+  useEffect(() => {
+    if (isLoading) setCurrent(null)
+  }, [isLoading])
+
   const clashes = useMemo(() => {
-    if (data != null && data.length > 0) {
-      const nearestClash = data.reduce(
+    setCurrent(null)
+
+    return data != null ? data : []
+  }, [data])
+
+  const selectNearestClash = useCallback(() => {
+    const getNearestClash = (clashes: Clash[]) => {
+      if (clashes.length === 0) return null
+
+      return clashes.reduce(
         (acc, clash) =>
           acc.schedule[0].startTime < clash.schedule[0].startTime
             ? acc
             : clash
       )
-      setCurrent(nearestClash)
-    } else {
-      setCurrent(null)
     }
 
-    return data != null ? data : []
-  }, [data])
+    const nearestClash = getNearestClash(clashes)
+    setCurrent(nearestClash)
+  }, [clashes])
 
   const getCurrentIndex = useCallback(() => {
     if (current == null) return null
@@ -101,16 +110,7 @@ export const ClashDataProvider = ({ children, region }: ClashDataProviderProps):
     setCurrent(null)
   }, [])
 
-  const getChampionId = useCallback((clash: Clash | null | undefined, isDemo: boolean) => {
-    if (clash != null) {
-      return `${region}-${clash.id}${isDemo ? '-demo' : ''}`
-    } else {
-      return `${region}${isDemo ? '-demo' : ''}`
-    }
-
-  }, [region])
-
-  const value = useMemo(() => new ClashData(current, clashes, nextClash, previousClash, selectClash, unselectClash, isLoading, getChampionId), [current, clashes, nextClash, previousClash, selectClash, unselectClash, isLoading, getChampionId])
+  const value = useMemo(() => new ClashData(current, clashes, nextClash, previousClash, selectClash, unselectClash, isLoading, selectNearestClash), [current, clashes, nextClash, previousClash, selectClash, unselectClash, isLoading, selectNearestClash])
 
   return (
     <ClashDataContext.Provider value={value}>

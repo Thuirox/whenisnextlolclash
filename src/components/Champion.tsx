@@ -20,12 +20,14 @@ function Champion({ championKey, skinIndex, enableTexture = false, setFrame, ani
   const { setCounter } = useLoading()
 
   const model = suspend(async () => {
+    const loader = new LOLLoader()
+
     setCounter(c => c + 1)
 
-    const loader = new LOLLoader()
     const model = await loader.load(championKey, skinIndex, { enableTexture, setFrame, animName })
 
     animName ? model.setAnimation(animName) : model.setDefaultAnimation()
+
     setCounter(c => c - 1)
     return model
   }, [animName, championKey, enableTexture, setFrame, skinIndex])

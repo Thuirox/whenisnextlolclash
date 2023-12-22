@@ -1,7 +1,6 @@
 
 import useSWR from 'swr'
 import { Clash } from '../providers/ClashDataProvider'
-import { delay } from '../utils'
 import useDemo from './useDemo'
 
 async function getMockData(region: string): Promise<Clash[]> {
@@ -43,19 +42,13 @@ async function getRemoteData(region: string): Promise<Clash[]> {
   const response = await fetch(clashEndpoint)
   const remoteData: Clash[] = await response.json()
 
-  await delay(1000)
-
   return remoteData
 }
 
 
 function fetcherBuider(fnc: (region: string) => Promise<Clash[]>, region: string) {
   return async () => {
-    await delay(1000)
-
-    const data = await fnc(region)
-
-    return data
+    return await fnc(region)
   }
 }
 
