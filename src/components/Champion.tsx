@@ -8,8 +8,6 @@ import { suspend } from "suspend-react"
 import { useLoading } from "../providers/LoadingProvider"
 
 interface ChampionProps extends ChampionConfig {
-  isStatic?: boolean
-  enableTexture?: boolean
   isDisabled?: boolean
   onClick: () => void
 }
