@@ -16,6 +16,9 @@ function useSelectedChampion(championConfigList: ChampionConfig[]) {
   }
 }
 
+const CAMERA_OFFSET = new Vector3(0, 100, 0)
+const TARGET_OFFSET = new Vector3(0, 100, 0)
+
 function useCameraAnimation(championConfigList: ChampionConfig[]) {
   const { camera } = useThree()
   const [cameraPos, setCameraPos] = useState<Vector3>(new Vector3(0, 200, 700))
@@ -61,12 +64,29 @@ function useCameraAnimation(championConfigList: ChampionConfig[]) {
     let cameraPosition = new Vector3(0, 200, 700)
 
     if (selectedChampion != null) {
-      target = new Vector3(selectedChampion.position.x, selectedChampion.position.y, selectedChampion.position.z).add(new Vector3(0, 200, 0))
+      target = new Vector3(
+        selectedChampion.position.x,
+        selectedChampion.position.y,
+        selectedChampion.position.z
+      ).add(TARGET_OFFSET)
+
+      if (selectedChampion.targetOffset) {
+        if (selectedChampion.targetOffset.x) target.x += selectedChampion.targetOffset.x
+        if (selectedChampion.targetOffset.y) target.y += selectedChampion.targetOffset.y
+        if (selectedChampion.targetOffset.z) target.z += selectedChampion.targetOffset.z
+      }
+
       cameraPosition = new Vector3(
         0 - (selectedChampion.position.x * 0.7),
-        selectedChampion.position.y + 100,
+        selectedChampion.position.y,
         0 - (selectedChampion.position.z * 0.7)
-      )
+      ).add(CAMERA_OFFSET)
+
+      if (selectedChampion.cameraOffset) {
+        if (selectedChampion.cameraOffset.x) cameraPosition.x += selectedChampion.cameraOffset.x
+        if (selectedChampion.cameraOffset.y) cameraPosition.y += selectedChampion.cameraOffset.y
+        if (selectedChampion.cameraOffset.z) cameraPosition.z += selectedChampion.cameraOffset.z
+      }
     }
 
     setTarget(target)
