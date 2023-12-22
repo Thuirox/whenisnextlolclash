@@ -22,17 +22,27 @@ function RegionDropdown({ region, setRegion }: RegionDropdownProps) {
         <li>{region}
           <ul className="dropdown">
             {regions.map((_region) => {
-              if (_region === region) return
+              const isCurrentRegion = _region === region
 
-              return (
-                <li
-                  key={_region}
-                  onClick={() => {
-                    setRegion(_region)
-                  }}>
-                  {_region}
-                </li>
-              )
+              if (isCurrentRegion) {
+                return (
+                  <li
+                    key={_region}
+                    className='selected'>
+                    {_region}
+                  </li>
+                )
+              } else {
+                return (
+                  <li
+                    key={_region}
+                    onClick={() => {
+                      setRegion(_region)
+                    }}>
+                    {_region}
+                  </li>
+                )
+              }
             })}
           </ul>
         </li>
