@@ -1,25 +1,206 @@
+const aatroxChannel = {
+  championKey: "266",
+  skinIndex: 0,
+  position: {
+    x: -236.36014641549866,
+    y: 0,
+    z: 33.23810374073747
+  },
+  rotation: {
+    x: 0,
+    y: 1.6,
+    z: 0
+  },
+  enableTexture: true,
+  animName: "channel",
+  cameraOffset: {
+    y: 200,
+    x: 0,
+    z: 200,
+  },
+  targetOffset: {
+    y: 0,
+  }
+}
+
+const azirChannel = {
+  championKey: "268",
+  skinIndex: 0,
+  position: {
+    x: 251.0231229354522,
+    y: -1.0445495937862574,
+    z: -7.901080260691003
+  },
+  rotation: {
+    x: 0,
+    y: -1.6,
+    z: 0
+  },
+  enableTexture: true,
+  animName: "channel",
+  cameraOffset: {
+    y: 200,
+    x: 100,
+    z: 200,
+  },
+  targetOffset: {
+    y: 100,
+  }
+}
+
+const karmaChannel = {
+  championKey: "43",
+  skinIndex: 0,
+  position: {
+    x: 0,
+    y: -1.0445495937862574,
+    z: -180.93402374787968
+  },
+  rotation: {
+    x: 0,
+    y: 0,
+    z: 0
+  },
+  enableTexture: true,
+  animName: "channel"
+}
+
+const sceneChannels = {
+  champions: [
+    karmaChannel,
+    aatroxChannel,
+    azirChannel
+  ]
+}
+
+const aurelionSol: ChampionConfig = {
+  championKey: "136",
+  skinIndex: 1,
+  position: {
+    x: -28.47067226140524,
+    y: -12.668511740023234,
+    z: -108.65994107668962
+  },
+  rotation: {
+    x: 0,
+    y: 0,
+    z: 0
+  },
+  animName: "idle1",
+  enableTexture: true,
+  cameraOffset: {
+    y: 300,
+    x: 400,
+    z: 200,
+  },
+  targetOffset: {
+    y: 100,
+  }
+}
+
+const aatroxIdle = {
+  championKey: "266",
+  skinIndex: 3,
+  position: {
+    x: -200,
+    y: 0,
+    z: 0
+  },
+  rotation: {
+    x: 0,
+    y: 1.5707963267948966,
+    z: 0
+  },
+  animName: "idle3_base",
+  enableTexture: true
+}
+
+const ahriIdle = {
+  championKey: "103",
+  skinIndex: 2,
+  position: {
+    x: 149.79912507811804,
+    y: -1.0445495937862574,
+    z: -7.901080260691003
+  },
+  rotation: {
+    x: 0,
+    y: 4.853888265603514,
+    z: 0
+  },
+  animName: "idle1",
+  enableTexture: true
+}
+
+const sceneAatroxAhri = {
+  champions: [
+    aatroxIdle,
+    ahriIdle
+  ]
+}
+
+const amumuCrying = {
+  championKey: '32',
+  skinIndex: 0,
+  position: {
+    x: 0,
+    y: 0,
+    z: -50
+  },
+  rotation: {
+    x: 0,
+    y: 0,
+    z: 0
+  },
+  animName: 'taunt',
+  enableTexture: true
+}
+
+const heimerRunning = {
+  championKey: '74',
+  skinIndex: 2,
+  position: {
+    x: 0,
+    y: 0,
+    z: 80
+  },
+  rotation: {
+    x: 0,
+    y: 0,
+    z: 0
+  },
+  animName: 'run_swag',
+  animationSpeed: 100,
+  enableTexture: true
+}
+
 export interface SceneConfig {
   champions: ChampionConfig[]
   resetCamera?: boolean
-  disableRotation?: boolean
+}
+
+interface vector {
+  x: number
+  y: number
+  z: number
+}
+interface vectorOptionnal {
+  x?: number
+  y?: number
+  z?: number
 }
 
 export interface ChampionConfig {
   championKey: string
   skinIndex: number
-  position: {
-    x: number
-    y: number
-    z: number
-  }
-  rotation: {
-    x: number
-    y: number
-    z: number
-  }
+  position: vector
+  rotation: vector
   setFrame?: number
   animName?: string
   animationSpeed?: number
+  enableTexture?: boolean
+  cameraOffset?: vectorOptionnal
+  targetOffset?: vectorOptionnal
 }
 
 export function getSceneConfig(nbChampions: number): SceneConfig | null {
@@ -36,203 +217,15 @@ export function getSceneOops(): SceneConfig {
 
 export const scenesConfig: Record<string, SceneConfig> = {
   0: {
-    champions: [
-      {
-        championKey: '32',
-        skinIndex: 0,
-        position: {
-          x: 0,
-          y: 0,
-          z: -50
-        },
-        rotation: {
-          x: 0,
-          y: 0,
-          z: 0
-        },
-        animName: 'taunt'
-      }
-    ]
+    champions: [ amumuCrying ]
   },
   1: {
-    champions: [
-      {
-        championKey: '266',
-        skinIndex: 0,
-        position: {
-          x: -250,
-          y: 0,
-          z: 0
-        },
-        rotation: {
-          x: 0,
-          y: 1.5707963267948966,
-          z: 0
-        },
-        setFrame: 22.22378112942827,
-        animName: 'idle_ult'
-      }
-    ]
+    champions: [ aurelionSol ]
   },
-  2: {
-    champions: [
-      {
-        championKey: '266',
-        skinIndex: 0,
-        position: {
-          x: -250,
-          y: 0,
-          z: 0
-        },
-        rotation: {
-          x: 0,
-          y: 1.5707963267948966,
-          z: 0
-        },
-        setFrame: 22.22378112942827,
-        animName: 'idle_ult'
-      },
-      {
-        championKey: '266',
-        skinIndex: 0,
-        position: {
-          x: 200,
-          y: 0,
-          z: 100
-        },
-        rotation: {
-          x: 0,
-          y: 3.992271210713072,
-          z: 0
-        },
-        setFrame: 40.40687478077867,
-        animName: 'idle1'
-      }
-    ]
-  },
-  4: {
-    champions: [
-      {
-        championKey: '7',
-        skinIndex: 0,
-        position: {
-          x: -250,
-          y: 0,
-          z: 0
-        },
-        rotation: {
-          x: 0,
-          y: 1.5707963267948966,
-          z: 0
-        },
-        setFrame: 22.22378112942827,
-        animName: 'idle1'
-      },
-      {
-        championKey: '4',
-        skinIndex: 0,
-        position: {
-          x: 200,
-          y: 0,
-          z: 100
-        },
-        rotation: {
-          x: 0,
-          y: 3.992271210713072,
-          z: 0
-        },
-        setFrame: 40.40687478077867,
-        animName: 'idle1'
-      },
-      {
-        championKey: '2',
-        skinIndex: 0,
-        position: {
-          x: 100,
-          y: 0,
-          z: -200
-        },
-        rotation: {
-          x: 0,
-          y: 3.992271210713072,
-          z: 0
-        },
-        setFrame: 40.40687478077867,
-        animName: 'idle1'
-      },
-      {
-        championKey: '1',
-        skinIndex: 0,
-        position: {
-          x: -100,
-          y: 0,
-          z: -200
-        },
-        rotation: {
-          x: 0,
-          y: 3.992271210713072,
-          z: 0
-        },
-        setFrame: 40.40687478077867,
-        animName: 'idle1'
-      }
-    ]
-  },
+  2: sceneAatroxAhri,
+  3: sceneChannels,
   oops: {
-    champions: [
-      {
-        championKey: '74',
-        skinIndex: 2,
-        position: {
-          x: 0,
-          y: 0,
-          z: 80
-        },
-        rotation: {
-          x: 0,
-          y: 0,
-          z: 0
-        },
-        animName: 'run_swag',
-        animationSpeed: 1000
-      }
-    ],
-    resetCamera: true,
-    disableRotation: true
+    champions: [ heimerRunning ],
+    resetCamera: true
   }
 }
-
-// const testScene: SceneConfig = [
-//   {
-//     championKey: '266',
-//     skinIndex: 0,
-//     position: {
-//       x: -200,
-//       y: 0,
-//       z: 0
-//     },
-//     rotation: {
-//       x: 0,
-//       y: 1.5707963267948966,
-//       z: 0
-//     },
-//     setFrame: 0,
-//     animName: 'idle_ult'
-//   },
-//   {
-//     championKey: '266',
-//     skinIndex: 0,
-//     position: {
-//       x: -200,
-//       y: 0,
-//       z: 0
-//     },
-//     rotation: {
-//       x: 0,
-//       y: 1.5707963267948966,
-//       z: 0
-//     },
-//     setFrame: 0,
-//     animName: 'idle1'
-//   }
-// ]
