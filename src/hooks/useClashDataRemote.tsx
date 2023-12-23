@@ -48,7 +48,11 @@ async function getRemoteData(region: string): Promise<Clash[]> {
 
 function fetcherBuider(fnc: (region: string) => Promise<Clash[]>, region: string) {
   return async () => {
-    return await fnc(region)
+    const clashes = await fnc(region)
+    clashes.sort((clash1, clash2) => {
+      return clash1.schedule[0].startTime - clash2.schedule[0].startTime
+    })
+    return clashes
   }
 }
 

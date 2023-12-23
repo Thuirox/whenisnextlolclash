@@ -61,7 +61,7 @@ function CentralLight() {
         intensity={0}
         penumbra={0}
         decay={0}
-        position={new Vector3(0, 400, 100)}
+        position={new Vector3(0, 600, 100)}
         shadow-camera-far={5000}
         shadow-mapSize-width={1024}
         shadow-mapSize-height={1024}

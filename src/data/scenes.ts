@@ -67,8 +67,8 @@ const karmaChannel = {
 
 const sceneChannels = {
   champions: [
-    karmaChannel,
     aatroxChannel,
+    karmaChannel,
     azirChannel
   ]
 }
@@ -104,11 +104,11 @@ const aatroxIdle = {
   position: {
     x: -200,
     y: 0,
-    z: 0
+    z: -100
   },
   rotation: {
     x: 0,
-    y: 1.5707963267948966,
+    y: 1.2,
     z: 0
   },
   animName: "idle3_base",
@@ -121,7 +121,7 @@ const ahriIdle = {
   position: {
     x: 149.79912507811804,
     y: -1.0445495937862574,
-    z: -7.901080260691003
+    z: -30
   },
   rotation: {
     x: 0,
