@@ -171,7 +171,12 @@ const heimerRunning = {
   },
   animName: 'run_swag',
   animationSpeed: 100,
-  enableTexture: true
+  enableTexture: true,
+  cameraOffset: {
+    y: 150,
+    x: 0,
+    z: 700,
+  }
 }
 
 export interface SceneConfig {
