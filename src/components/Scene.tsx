@@ -1,4 +1,3 @@
-import { PCFSoftShadowMap, Vector3 } from 'three'
 import { Canvas } from '@react-three/fiber'
 
 import './Scene.css'
@@ -14,8 +13,7 @@ function Scene() {
   return (
     <div id="canvas-container">
       <Canvas
-        camera={{ fov: 45, aspect: window.innerWidth / window.innerHeight, near: 150, far: 2000, position: new Vector3(0, 200, 700) }}
-        shadows={{ enabled: true, type: PCFSoftShadowMap }}
+        camera={{ fov: 45, aspect: window.innerWidth / window.innerHeight, near: 150, far: 2000 }}
         dpr={window.devicePixelRatio}>
         <Selection>
           <Ground />
