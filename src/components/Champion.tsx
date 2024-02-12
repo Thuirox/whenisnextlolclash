@@ -6,6 +6,7 @@ import { ChampionConfig } from "../data/scenes"
 import { Vector3 } from "three"
 import { suspend } from "suspend-react"
 import { useLoading } from "../providers/LoadingProvider"
+import { PerformanceMonitor } from "@react-three/drei"
 
 interface ChampionProps extends ChampionConfig {
   isDisabled?: boolean
@@ -26,6 +27,7 @@ function Champion({ championKey, skinIndex, enableTexture = false, setFrame, ani
 
     animName ? model.setAnimation(animName) : model.setDefaultAnimation()
 
+    model.update(0)
     setCounter(c => c - 1)
     return model
   }, [animName, championKey, enableTexture, setFrame, skinIndex])
@@ -35,27 +37,36 @@ function Champion({ championKey, skinIndex, enableTexture = false, setFrame, ani
   }, [hovered, isDisabled])
 
   useFrame(({ clock }) => {
-    if (model != null) model.update(clock.getElapsedTime() * animationSpeed)
+    if (model != null && model.enableTexture) {
+      model.update(clock.getElapsedTime() * animationSpeed)
+    }
   })
 
   return (
-    <Select enabled={!isDisabled && hovered}>
-      <mesh
-        position={new Vector3(position.x, position.y, position.z)}
-        rotation-x={rotation.x}
-        rotation-y={rotation.y}
-        rotation-z={rotation.z}
-        material={model.material}
-        geometry={model.geometry}
-        receiveShadow
-        castShadow
-        onPointerEnter={() => setHovered(true)}
-        onPointerLeave={() => setHovered(false)}
-        onClick={() => {
-          if (!isDisabled) onClick()
-        }}
-      />
-    </Select>
+    <>
+      <PerformanceMonitor
+        onChange={({ fps }) => {
+          if (fps < 20) model.enableTexture = false
+        }} />
+
+      <Select enabled={!isDisabled && hovered}>
+        <mesh
+          position={new Vector3(position.x, position.y, position.z)}
+          rotation-x={rotation.x}
+          rotation-y={rotation.y}
+          rotation-z={rotation.z}
+          material={model.material}
+          geometry={model.geometry}
+          receiveShadow
+          castShadow
+          onPointerEnter={() => setHovered(true)}
+          onPointerLeave={() => setHovered(false)}
+          onClick={() => {
+            if (!isDisabled) onClick()
+          }}
+        />
+      </Select>
+    </>
   )
 }
 

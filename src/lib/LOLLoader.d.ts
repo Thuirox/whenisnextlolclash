@@ -21,6 +21,7 @@ declare class Model {
   meshUrl: string
   geometry: BufferGeometry
   material: MeshPhongMaterial
+  enableTexture: boolean
   rotation: {
     x: number
     y: number
